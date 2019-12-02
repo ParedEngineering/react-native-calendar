@@ -86,17 +86,15 @@ export default class Calendar extends Component {
     setTimeout(() => this.scrollToItem(VIEW_INDEX), 0)
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
+    const { selectedDate, currentMonth } = this.props
+    if (selectedDate !== prevProps.selectedDate) {
+      this.setState({ selectedMoment: selectedDate })
+    }
+    if (currentMonth) {
+      this.setState({ currentMonthMoment: moment(currentMonth) })
+    }
     this.scrollToItem(VIEW_INDEX);
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (this.props.selectedDate !== nextProps.selectedDate) {
-      this.setState({selectedMoment: nextProps.selectedDate});
-    }
-    if (nextProps.currentMonth) {
-      this.setState({currentMonthMoment: moment(nextProps.currentMonth)});
-    }
   }
 
   getMonthStack(currentMonth) {
